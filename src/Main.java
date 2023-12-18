@@ -5,11 +5,9 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-
-
-        printTableOfTruth(convertFromCNFToTable(sc));
-        //System.out.println(convertFromTableToDNF(sc));
-
+        int[][] tableOfTruth = convertFromCNFToTable(sc);
+        printTableOfTruth(tableOfTruth);
+        System.out.println("DNF: " + convertFromTableToDNF(tableOfTruth));
 
         sc.close();
     }
@@ -18,13 +16,10 @@ public class Main {
         String input = sc.nextLine();
         input = input.replaceAll(" ","");
 
-        System.out.println(input);
-
         String[] arrayOfAdds = new String[32];
 
         if(input.contains(")(")) {
             arrayOfAdds = input.split("\\)\\(");
-            System.out.println(arrayOfAdds.length);
         }
 
 
@@ -96,6 +91,7 @@ public class Main {
         return tableOfTruthRef;
     }
     public static void printTableOfTruth(int[][] tableOfTruth) {
+        System.out.println("Table of Truth:");
         System.out.println("a\tb\tc\td\te\tf");
         for(int i = 0; i < tableOfTruth.length; i++) {
             for(int j = 0; j < tableOfTruth[i].length; j++) {
@@ -116,6 +112,28 @@ public class Main {
 
         while (lineCounter < 32) {
             String line = sc.next();
+            lineCounter++;
+            if(!convertTableStringToDNF(line).equals("")) {
+                outputDNF += convertTableStringToDNF(line) + "+";
+            }
+        }
+
+        return outputDNF.substring(0, outputDNF.length() - 1);
+    }
+
+    public static String convertFromTableToDNF(int[][] tableOfTruth) {
+
+
+        int lineCounter = 0;
+        String outputDNF = "";
+
+        while (lineCounter < 32) {
+            String line = tableOfTruth[lineCounter][0] + "\t" +
+                    tableOfTruth[lineCounter][1] + "\t" +
+                    tableOfTruth[lineCounter][2] + "\t" +
+                    tableOfTruth[lineCounter][3] + "\t" +
+                    tableOfTruth[lineCounter][4] + "\t" +
+                    tableOfTruth[lineCounter][5];
             lineCounter++;
             if(!convertTableStringToDNF(line).equals("")) {
                 outputDNF += convertTableStringToDNF(line) + "+";
